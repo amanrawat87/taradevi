@@ -24,17 +24,36 @@ export default function Header({ initialNavData = [], initialGlobalSettings = nu
     window.dispatchEvent(new CustomEvent("open-site-visit-modal"));
   };
 
+  const handleNavClick = (e, href) => {
+    e.preventDefault();
+    setMobileMenuOpen(false);
+    if (!href || href === "#") return;
+
+    const targetId = href.replace("#", "");
+    const targetElement = document.getElementById(targetId);
+    if (targetElement) {
+      const headerOffset = 70;
+      const elementPosition = targetElement.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth",
+      });
+      window.history.pushState(null, "", href);
+    }
+  };
+
   const logoSrc = initialGlobalSettings?.logoImage || "/images/tara-devis-seal.png";
   const phone = initialGlobalSettings?.primaryPhone || "+91-9871177761";
 
-  // Navigation Links including Blogs and Contact Us
+  // Navigation Links with in-page anchor IDs (Strictly Single Page)
   const navLinks = [
-    { label: "About Us", href: "/#about" },
-    { label: "Residences", href: "/#residences" },
-    { label: "Amenities", href: "/#amenities" },
-    { label: "Gallery", href: "/#gallery" },
-    { label: "Blogs", href: "/blog" },
-    { label: "Contact Us", href: "/contact" },
+    { label: "About Us", href: "#about" },
+    { label: "Residences", href: "#residences" },
+    { label: "Amenities", href: "#amenities" },
+    { label: "Gallery", href: "#gallery" },
+    { label: "Blogs", href: "#walkthrough" },
+    { label: "Contact Us", href: "#enquire" },
   ];
 
   return (
@@ -84,10 +103,11 @@ export default function Header({ initialNavData = [], initialGlobalSettings = nu
           {/* Desktop Navigation - Centered & Strictly No-Wrap */}
           <nav className="hidden lg:flex items-center gap-3.5 xl:gap-6 2xl:gap-7">
             {navLinks.map((item) => (
-              <Link
+              <a
                 key={item.label}
                 href={item.href}
-                className={`text-[11.5px] xl:text-[13px] font-semibold tracking-wider uppercase whitespace-nowrap transition-colors duration-300 py-1 relative group ${
+                onClick={(e) => handleNavClick(e, item.href)}
+                className={`text-[11.5px] xl:text-[13px] font-semibold tracking-wider uppercase whitespace-nowrap transition-colors duration-300 py-1 relative group cursor-pointer ${
                   isScrolled
                     ? "text-[#14221D] hover:text-[#CFA86E]"
                     : "text-white/90 hover:text-[#E4C794]"
@@ -96,7 +116,7 @@ export default function Header({ initialNavData = [], initialGlobalSettings = nu
               >
                 {item.label}
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#CFA86E] transition-all duration-300 group-hover:w-full" />
-              </Link>
+              </a>
             ))}
           </nav>
 
@@ -182,14 +202,14 @@ export default function Header({ initialNavData = [], initialGlobalSettings = nu
               {/* Mobile Nav Links */}
               <nav className="mt-8 flex flex-col gap-4">
                 {navLinks.map((item) => (
-                  <Link
+                  <a
                     key={item.label}
                     href={item.href}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="text-sm font-semibold tracking-wider uppercase text-white/90 hover:text-[#CFA86E] py-2 border-b border-white/5 transition-colors"
+                    onClick={(e) => handleNavClick(e, item.href)}
+                    className="text-sm font-semibold tracking-wider uppercase text-white/90 hover:text-[#CFA86E] py-2 border-b border-white/5 transition-colors cursor-pointer"
                   >
                     {item.label}
-                  </Link>
+                  </a>
                 ))}
               </nav>
             </div>
