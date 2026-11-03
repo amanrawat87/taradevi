@@ -126,7 +126,6 @@ export default function LeadershipSection() {
             }}
             speed={750}
             loop={true}
-            loopAdditionalSlides={2}
             spaceBetween={24}
             slidesPerView={1}
             breakpoints={{
@@ -148,6 +147,7 @@ export default function LeadershipSection() {
                           src={leader.avatar}
                           alt={leader.name}
                           fill
+                          sizes="52px"
                           className="object-cover"
                         />
                       </div>
