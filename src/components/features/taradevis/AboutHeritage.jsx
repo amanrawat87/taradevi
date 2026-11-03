@@ -19,8 +19,8 @@ export default function AboutHeritage({ data }) {
   return (
     <section
       id="about"
-      className="relative py-[60px] bg-[#FFFFFF] overflow-hidden flex items-center"
-      style={{ paddingTop: "60px", paddingBottom: "60px" }}
+      className="relative py-10 bg-[#FFFFFF] overflow-hidden flex items-center"
+      style={{ paddingTop: "40px", paddingBottom: "40px" }}
     >
       <div className="relative mx-auto max-w-7xl px-6 md:px-12 lg:px-16 w-full">
         {/* Section Header Tag */}

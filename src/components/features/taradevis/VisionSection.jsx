@@ -34,8 +34,8 @@ export default function VisionSection() {
   return (
     <section
       id="vision"
-      className="relative py-[60px] bg-[#f3eee9] text-[#0E3326] overflow-hidden flex items-center border-t border-[#CFA86E]/20"
-      style={{ paddingTop: "60px", paddingBottom: "60px" }}
+      className="relative py-10 bg-[#f3eee9] text-[#0E3326] overflow-hidden flex items-center border-t border-[#CFA86E]/20"
+      style={{ paddingTop: "40px", paddingBottom: "40px" }}
     >
       {/* 
         Luxury Background Texture & Glowing Effects on #f3eee9:

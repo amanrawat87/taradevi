@@ -25,7 +25,7 @@ export default async function Footer() {
       {/* Decorative Top Accent Line */}
       <div className="h-1 w-full bg-gradient-to-r from-transparent via-[#CFA86E] to-transparent" />
 
-      <div className="mx-auto max-w-7xl px-6 md:px-12 lg:px-16 pt-[60px] pb-[60px]">
+      <div className="mx-auto max-w-7xl px-6 md:px-12 lg:px-16 pt-10 pb-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 pb-16 border-b border-white/10">
           {/* Brand & Seal Column */}
           <div className="lg:col-span-5">

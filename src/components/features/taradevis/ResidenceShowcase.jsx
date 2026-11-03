@@ -54,8 +54,8 @@ export default function ResidenceShowcase({ residences = [] }) {
   return (
     <section
       id="residences"
-      className="relative py-[60px] bg-[#FFFFFF] flex items-center border-t border-[#CFA86E]/20"
-      style={{ paddingTop: "60px", paddingBottom: "60px" }}
+      className="relative py-10 bg-[#FFFFFF] flex items-center border-t border-[#CFA86E]/20"
+      style={{ paddingTop: "40px", paddingBottom: "40px" }}
     >
       <div className="mx-auto max-w-7xl px-6 md:px-12 lg:px-16 w-full">
         {/* Section Header: Compact */}

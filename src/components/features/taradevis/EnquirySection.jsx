@@ -56,8 +56,8 @@ export default function EnquirySection() {
   return (
     <section
       id="enquire"
-      className="relative py-[60px] bg-[#081E16] text-white overflow-hidden flex items-center border-t border-[#CFA86E]/20"
-      style={{ paddingTop: "60px", paddingBottom: "60px" }}
+      className="relative py-10 bg-[#081E16] text-white overflow-hidden flex items-center border-t border-[#CFA86E]/20"
+      style={{ paddingTop: "40px", paddingBottom: "40px" }}
     >
       {/* Ambient Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-[#1A5A44]/20 blur-[150px] pointer-events-none rounded-full" />

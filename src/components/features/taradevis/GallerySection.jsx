@@ -64,8 +64,8 @@ export default function GallerySection({ images = [] }) {
   return (
     <section
       id="gallery"
-      className="relative py-[60px] bg-[#F7F9F6] flex items-center border-t border-[#CFA86E]/20"
-      style={{ paddingTop: "60px", paddingBottom: "60px" }}
+      className="relative py-10 bg-[#F7F9F6] flex items-center border-t border-[#CFA86E]/20"
+      style={{ paddingTop: "40px", paddingBottom: "40px" }}
     >
       <div className="mx-auto max-w-7xl px-6 md:px-12 lg:px-16 w-full">
         {/* Section Header with Tabs in 1 Line */}
