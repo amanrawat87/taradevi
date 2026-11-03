@@ -1,0 +1,27 @@
+name: Deploy to Hostinger VPS
+
+on:
+  push:
+    branches:
+      - main # Triggers when you push to the main branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: SSH into VPS and deploy
+        uses: appleboy/ssh-action@v1.0.3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          host: ${{ secrets.VPS_IP }}
+          username: root
+          password: ${{ secrets.VPS_PASSWORD }}
+          envs: GITHUB_TOKEN
+          script: |
+            cd /var/www/jindal-vercel
+            git pull https://x-access-token:$GITHUB_TOKEN@github.com/wtdesigner3/jindal-vercel.git main
+            npm install
+            npm run build
+            pm2 restart jindal-app
