@@ -45,8 +45,8 @@ export default function AmenitiesSection({ amenities = [] }) {
   return (
     <section
       id="amenities"
-      className="relative min-h-screen py-20 bg-[#FFFFFF] flex items-center border-t border-[#CFA86E]/20"
-      style={{ padding: "80px 0" }}
+      className="relative py-[60px] bg-[#FFFFFF] flex items-center border-t border-[#CFA86E]/20"
+      style={{ paddingTop: "60px", paddingBottom: "60px" }}
     >
       <div className="mx-auto max-w-7xl px-6 md:px-12 lg:px-16 w-full">
         {/* Section Header */}

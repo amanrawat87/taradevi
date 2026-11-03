@@ -33,8 +33,8 @@ export default function CareersSection() {
   return (
     <section
       id="careers"
-      className="relative min-h-screen py-20 bg-[#F7F9F6] border-t border-[#CFA86E]/20 flex items-center"
-      style={{ padding: "80px 0" }}
+      className="relative py-[60px] bg-[#F7F9F6] border-t border-[#CFA86E]/20 flex items-center"
+      style={{ paddingTop: "60px", paddingBottom: "60px" }}
     >
       <div className="mx-auto max-w-7xl px-6 md:px-12 lg:px-16 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
