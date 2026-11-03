@@ -1,72 +1,65 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 
 export default function ResidenceShowcase({ residences = [] }) {
+  // Rich multi-photo gallery for each residence
   const defaultResidences = [
     {
       _id: "res-1",
       name: "Tara Devi Enclave — Shimla",
-      grade: "Under Active Construction • 2 & 3 BHK Luxury Residences",
-      description:
-        "Situated in the tranquil foothills of Shimla. Floor-to-ceiling panoramic glass windows, expansive cantilevered timber decks overlooking pine slopes, and radiant underfloor heating provisions.",
-      image: "/images/residence-property-1.jpg",
+      grade: "2 & 3 BHK Mountain Residences",
       badge: "Under Active Construction",
       elevation: "6,500 ft",
       climate: "Temperate",
       possession: "End 2026",
+      images: [
+        "/images/residence-property-1.jpg",
+        "/images/tara-enclave-banner-1.jpg",
+        "/images/tara-enclave-banner-2.jpg",
+        "/images/tara-gallery-1.jpg",
+      ],
     },
     {
       _id: "res-2",
       name: "Tara Devi Luxury Villas — Kufri",
-      grade: "Planned Private Mountain Estates • 4 & 5 BHK",
-      description:
-        "An exclusive private enclave planned for Kufri at majestic high elevation. Bespoke hillside villas with sweeping views of snow-dusted Himalayan peaks, private forest lawns, and stone hearths.",
-      image: "/images/residence-property-2.jpg",
+      grade: "4 & 5 BHK Private Mountain Estates",
       badge: "Planned Exclusive Enclave",
       elevation: "7,000 ft",
       climate: "Temperate",
       possession: "End 2027",
+      images: [
+        "/images/residence-property-2.jpg",
+        "/images/tara-gallery-2.jpg",
+        "/images/tara-gallery-3.jpg",
+        "/images/slide2.jpg",
+      ],
     },
   ];
 
-  const authenticImages = [
-    "/images/residence-property-1.jpg",
-    "/images/residence-property-2.jpg",
-  ];
+  // Track active slide index for each card independently
+  const [activeSlides, setActiveSlides] = useState({ 0: 0, 1: 0 });
 
-  const baseItems = residences && residences.length > 0 ? residences : defaultResidences;
-  const items = baseItems.slice(0, 2).map((res, idx) => ({
-    ...res,
-    name: res.name || defaultResidences[idx].name,
-    grade: res.grade || defaultResidences[idx].grade,
-    description: res.description || defaultResidences[idx].description,
-    badge: res.badge || defaultResidences[idx].badge,
-    elevation: res.elevation || (idx === 0 ? "6,500 ft" : "7,000 ft"),
-    climate: res.climate || "Temperate",
-    possession: res.possession || (idx === 0 ? "End 2026" : "End 2027"),
-    image:
-      !res.image || res.image.includes("unsplash.com")
-        ? authenticImages[idx % authenticImages.length]
-        : res.image,
-  }));
-
-  const handleOpenModal = () => {
-    window.dispatchEvent(new CustomEvent("open-site-visit-modal"));
+  const handlePrevSlide = (e, cardIndex, total) => {
+    e.stopPropagation();
+    setActiveSlides((prev) => ({
+      ...prev,
+      [cardIndex]: prev[cardIndex] === 0 ? total - 1 : prev[cardIndex] - 1,
+    }));
   };
 
-  const handleScrollToWalkthrough = (e) => {
-    e.preventDefault();
-    const elem = document.getElementById("walkthrough");
-    if (elem) {
-      const headerOffset = 70;
-      const elementPosition = elem.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth",
-      });
-    }
+  const handleNextSlide = (e, cardIndex, total) => {
+    e.stopPropagation();
+    setActiveSlides((prev) => ({
+      ...prev,
+      [cardIndex]: (prev[cardIndex] + 1) % total,
+    }));
+  };
+
+  const handleOpenModal = (e) => {
+    if (e) e.stopPropagation();
+    window.dispatchEvent(new CustomEvent("open-site-visit-modal"));
   };
 
   return (
@@ -94,99 +87,128 @@ export default function ResidenceShowcase({ residences = [] }) {
           </p>
         </div>
 
-        {/* 2-Column Luxury Side-by-Side Residence Cards */}
+        {/* 2-Column Side-by-Side Visual Showcase Cards (Image-Predominant) */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {items.slice(0, 2).map((res, index) => {
+          {defaultResidences.map((res, index) => {
+            const currentSlide = activeSlides[index] || 0;
+            const images = res.images;
+
             return (
               <div
                 key={res._id || index}
-                className="group relative rounded-2xl border border-[#CFA86E]/30 bg-white overflow-hidden shadow-lg hover:border-[#CFA86E] hover:shadow-2xl transition-all duration-300 flex flex-col justify-between"
+                className="group relative rounded-2xl border border-[#CFA86E]/30 bg-[#081E16] overflow-hidden shadow-xl hover:shadow-2xl hover:border-[#CFA86E] transition-all duration-300 flex flex-col"
               >
-                {/* ── TOP: FULL-BLEED IMAGE + SPECS RIBBON (MATCHING REFERENCE DESIGN) ── */}
-                <div className="w-full">
-                  {/* Property Image Container */}
-                  <div className="relative aspect-[16/10] sm:aspect-[16/9] w-full overflow-hidden bg-[#0A1A14]">
-                    <Image
-                      src={res.image || defaultResidences[index % 2].image}
-                      alt={res.name}
-                      fill
-                      sizes="(max-width: 1024px) 100vw, 50vw"
-                      className="object-cover transition-transform duration-700 group-hover:scale-105"
-                      priority={index === 0}
-                    />
-                    {/* Floating Status Pill */}
-                    <div className="absolute top-4 left-4 rounded-full bg-[#0E3326]/85 backdrop-blur-md px-3.5 py-1 text-[10px] font-semibold tracking-wider uppercase text-[#E4C794] border border-[#CFA86E]/40 shadow-md">
-                      {res.badge || "Signature Development"}
+                {/* ── EXPANSIVE HIGH-RESOLUTION IMAGE CONTAINER ── */}
+                <div className="relative w-full h-[400px] sm:h-[460px] md:h-[490px] overflow-hidden bg-[#0A1A14] select-none">
+                  {/* Active Property Image */}
+                  <Image
+                    src={images[currentSlide]}
+                    alt={`${res.name} Photo ${currentSlide + 1}`}
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    className="object-cover transition-all duration-700 brightness-[0.95] group-hover:scale-105"
+                    priority={index === 0}
+                  />
+
+                  {/* Subtle Vignette Gradient for Legibility */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-black/60 pointer-events-none" />
+
+                  {/* ── OVERLAID MINIMAL TOP HEADER ── */}
+                  <div className="absolute top-0 inset-x-0 p-5 sm:p-6 flex items-start justify-between z-10 pointer-events-auto">
+                    <div>
+                      <span className="inline-block rounded-full bg-[#0E3326]/90 backdrop-blur-md px-3.5 py-1 text-[10px] font-semibold tracking-wider uppercase text-[#E4C794] border border-[#CFA86E]/40 shadow-md mb-2">
+                        {res.badge}
+                      </span>
+                      <h3 className="font-serif text-2xl sm:text-3xl font-normal text-white drop-shadow-md">
+                        {res.name}
+                      </h3>
+                      <p className="text-xs sm:text-sm text-white/80 font-light mt-0.5 tracking-wide">
+                        {res.grade}
+                      </p>
                     </div>
-                  </div>
 
-                  {/* ── ALPINE STATS RIBBON (ELEVATION • CLIMATE • POSSESSION) ── */}
-                  <div className="bg-[#0A2318] py-4 sm:py-5 px-4 sm:px-6 border-t border-b border-[#CFA86E]/20">
-                    <div className="grid grid-cols-3 divide-x divide-white/10 text-center">
-                      {/* Elevation */}
-                      <div className="px-2">
-                        <span className="block font-serif text-xl sm:text-2xl text-white font-light tracking-wide leading-tight">
-                          {res.elevation}
-                        </span>
-                        <span className="block text-[9px] sm:text-[10px] tracking-[0.25em] text-[#CFA86E] uppercase font-semibold mt-1">
-                          ELEVATION
-                        </span>
-                      </div>
-
-                      {/* Climate */}
-                      <div className="px-2">
-                        <span className="block font-serif text-xl sm:text-2xl text-white font-light tracking-wide leading-tight">
-                          {res.climate}
-                        </span>
-                        <span className="block text-[9px] sm:text-[10px] tracking-[0.25em] text-[#CFA86E] uppercase font-semibold mt-1">
-                          CLIMATE
-                        </span>
-                      </div>
-
-                      {/* Possession */}
-                      <div className="px-2">
-                        <span className="block font-serif text-xl sm:text-2xl text-white font-light tracking-wide leading-tight">
-                          {res.possession}
-                        </span>
-                        <span className="block text-[9px] sm:text-[10px] tracking-[0.25em] text-[#CFA86E] uppercase font-semibold mt-1">
-                          POSSESSION
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* ── BOTTOM: CARD CONTENT & CALLS TO ACTION ── */}
-                <div className="p-6 sm:p-7 flex-1 flex flex-col justify-between bg-white">
-                  <div>
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#CFA86E] mb-2">
-                      {res.grade}
-                    </p>
-                    <h3 className="font-serif text-2xl font-light text-[#0E3326] leading-snug">
-                      {res.name}
-                    </h3>
-                    <p className="mt-2.5 text-xs sm:text-sm text-[#5A6E65] font-light leading-relaxed line-clamp-3">
-                      {res.description}
-                    </p>
-                  </div>
-
-                  {/* Action Buttons */}
-                  <div className="mt-6 pt-5 border-t border-[#CFA86E]/20 flex items-center justify-between gap-3">
+                    {/* Book Site Visit Quick Button */}
                     <button
                       onClick={handleOpenModal}
                       type="button"
-                      className="rounded-full bg-[#0E3326] px-5 py-2.5 text-xs font-semibold uppercase tracking-wider text-white hover:bg-[#1A5A44] transition-all shadow-md hover:shadow-lg hover:scale-105 cursor-pointer flex-shrink-0"
+                      className="rounded-full bg-gradient-to-r from-[#CFA86E] via-[#E4C794] to-[#CFA86E] px-4 py-2 text-[11px] font-bold uppercase tracking-wider text-[#0E3326] shadow-lg transition-transform hover:scale-105 cursor-pointer whitespace-nowrap"
                     >
-                      Book Private Site Tour
+                      Book Visit
                     </button>
-                    <button
-                      onClick={handleScrollToWalkthrough}
-                      type="button"
-                      className="rounded-full border border-[#0E3326]/20 px-4 py-2 text-xs font-semibold text-[#0E3326] hover:bg-[#0E3326] hover:text-white transition-colors cursor-pointer inline-flex items-center gap-1.5 whitespace-nowrap"
-                    >
-                      <span>View Walkthrough</span>
-                      <span>→</span>
-                    </button>
+                  </div>
+
+                  {/* ── SLIDE NAVIGATION CHEVRONS ── */}
+                  {images.length > 1 && (
+                    <>
+                      <button
+                        onClick={(e) => handlePrevSlide(e, index, images.length)}
+                        aria-label="Previous Photo"
+                        className="absolute left-3.5 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/40 hover:bg-black/75 backdrop-blur-md text-white border border-white/20 flex items-center justify-center transition-all opacity-80 hover:opacity-100 hover:scale-110 z-20 cursor-pointer"
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
+                        </svg>
+                      </button>
+
+                      <button
+                        onClick={(e) => handleNextSlide(e, index, images.length)}
+                        aria-label="Next Photo"
+                        className="absolute right-3.5 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/40 hover:bg-black/75 backdrop-blur-md text-white border border-white/20 flex items-center justify-center transition-all opacity-80 hover:opacity-100 hover:scale-110 z-20 cursor-pointer"
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </button>
+
+                      {/* Pagination Indicator Dots */}
+                      <div className="absolute bottom-3.5 inset-x-0 flex items-center justify-center gap-1.5 z-20 pointer-events-none">
+                        {images.map((_, dotIdx) => (
+                          <span
+                            key={dotIdx}
+                            className={`h-1.5 rounded-full transition-all duration-300 ${
+                              dotIdx === currentSlide
+                                ? "w-6 bg-[#CFA86E]"
+                                : "w-1.5 bg-white/50"
+                            }`}
+                          />
+                        ))}
+                      </div>
+                    </>
+                  )}
+                </div>
+
+                {/* ── SOLID DEEP FOREST GREEN STATS RIBBON (EXACT REFERENCE DESIGN) ── */}
+                <div className="bg-[#0A2318] py-4 sm:py-5 px-4 sm:px-6 border-t border-[#CFA86E]/20 z-10">
+                  <div className="grid grid-cols-3 divide-x divide-white/10 text-center">
+                    {/* Elevation */}
+                    <div className="px-2">
+                      <span className="block font-serif text-xl sm:text-2xl text-white font-light tracking-wide leading-tight">
+                        {res.elevation}
+                      </span>
+                      <span className="block text-[9px] sm:text-[10px] tracking-[0.25em] text-[#CFA86E] uppercase font-semibold mt-1">
+                        ELEVATION
+                      </span>
+                    </div>
+
+                    {/* Climate */}
+                    <div className="px-2">
+                      <span className="block font-serif text-xl sm:text-2xl text-white font-light tracking-wide leading-tight">
+                        {res.climate}
+                      </span>
+                      <span className="block text-[9px] sm:text-[10px] tracking-[0.25em] text-[#CFA86E] uppercase font-semibold mt-1">
+                        CLIMATE
+                      </span>
+                    </div>
+
+                    {/* Possession */}
+                    <div className="px-2">
+                      <span className="block font-serif text-xl sm:text-2xl text-white font-light tracking-wide leading-tight">
+                        {res.possession}
+                      </span>
+                      <span className="block text-[9px] sm:text-[10px] tracking-[0.25em] text-[#CFA86E] uppercase font-semibold mt-1">
+                        POSSESSION
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
