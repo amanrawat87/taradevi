@@ -145,6 +145,24 @@ main,
   background-size: 200% 100%;
   animation: page-shimmer-sweep 1.6s ease-in-out infinite;
 }
+.luxury-skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.04) 0%,
+    rgba(207, 168, 110, 0.22) 50%,
+    rgba(255, 255, 255, 0.04) 100%
+  );
+  background-size: 200% 100%;
+  animation: luxury-shimmer-sweep 2s ease-in-out infinite;
+}
+@keyframes luxury-shimmer-sweep {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
 .skeleton-card {
   background: #ffffff;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
