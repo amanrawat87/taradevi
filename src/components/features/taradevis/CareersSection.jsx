@@ -43,7 +43,7 @@ export default function CareersSection() {
             <div className="flex items-center gap-3 mb-2">
               <span className="h-px w-8 bg-[#CFA86E]" />
               <span className="text-[11px] font-semibold uppercase tracking-[0.25em] text-[#CFA86E]">
-                Section 09 • Careers &amp; Culture
+                Careers &amp; Culture
               </span>
             </div>
 

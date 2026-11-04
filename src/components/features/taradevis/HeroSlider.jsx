@@ -6,6 +6,52 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import AtmosphereCanvas from "./AtmosphereCanvas";
 
+// Helper function to split title into half white and half authentic theme alpine pine green
+function renderBicolorTitle(title) {
+  if (!title) return null;
+
+  // Authentic theme alpine pine green matching Tara Devi's brand tokens (--td-emerald / --td-emerald-light)
+  const themeGreenClass = "text-[#3B9772] font-normal";
+
+  // Specific high-impact highlights for known titles
+  if (title.includes("Himalayan Serenity")) {
+    const prefix = title.replace("Himalayan Serenity", "").trim();
+    return (
+      <>
+        <span className="text-white">{prefix} </span>
+        <span className={themeGreenClass}>Himalayan Serenity</span>
+      </>
+    );
+  }
+
+  if (title.includes("Luxury Mountain Living")) {
+    const prefix = title.replace("Luxury Mountain Living", "").trim();
+    return (
+      <>
+        <span className="text-white">{prefix} </span>
+        <span className={themeGreenClass}>Luxury Mountain Living</span>
+      </>
+    );
+  }
+
+  // Dynamic split for custom database titles (split into 2 halves)
+  const words = title.trim().split(/\s+/);
+  if (words.length <= 1) {
+    return <span className="text-white">{title}</span>;
+  }
+
+  const mid = Math.ceil(words.length / 2);
+  const firstHalf = words.slice(0, mid).join(" ");
+  const secondHalf = words.slice(mid).join(" ");
+
+  return (
+    <>
+      <span className="text-white">{firstHalf} </span>
+      <span className={themeGreenClass}>{secondHalf}</span>
+    </>
+  );
+}
+
 export default function HeroSlider({ slides = [] }) {
   const authenticSlides = [
     {
@@ -80,18 +126,18 @@ export default function HeroSlider({ slides = [] }) {
   const current = activeSlides[currentIndex] || activeSlides[0];
 
   return (
-    <section className="relative h-[92vh] min-h-[600px] w-full overflow-hidden bg-[#0A1A14]">
-      {/* 3D Atmospheric Mist Canvas */}
+    <section className="relative h-screen min-h-[650px] w-full overflow-hidden bg-black">
+      {/* 3D Atmospheric Micro-Particles Canvas */}
       <AtmosphereCanvas />
 
-      {/* Slide Background Images (Authentic Property Aerials) */}
-      <AnimatePresence mode="wait">
+      {/* Slide Background Images (Seamless Cross-Fade Without Green Flash) */}
+      <AnimatePresence>
         <motion.div
           key={currentIndex}
-          initial={{ opacity: 0, scale: 1.05 }}
-          animate={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 1.2, ease: "easeOut" }}
+          transition={{ duration: 1.0, ease: "easeInOut" }}
           className="absolute inset-0 z-0"
         >
           <Image
@@ -100,65 +146,34 @@ export default function HeroSlider({ slides = [] }) {
             fill
             priority
             sizes="100vw"
-            className="object-cover object-center brightness-[0.92]"
+            className="object-cover object-center brightness-100"
           />
-          {/* Subtle Overlays for Readability without Dimming the Landscape */}
-          <div className="absolute inset-0 bg-gradient-to-r from-black/65 via-black/30 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/20" />
+          {/* Very Light, Clean Natural Overlays — No Heavy Green Tint */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/55 via-black/15 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent" />
         </motion.div>
       </AnimatePresence>
 
       {/* Hero Content Container */}
       <div className="relative z-20 flex h-full items-center">
-        <div className="mx-auto w-full max-w-7xl px-6 md:px-12 lg:px-16 pt-24 sm:pt-28 pb-16">
-          <div className="max-w-2xl">
-            {/* Top Brand Crest Badge */}
-            <motion.div
+        <div className="mx-auto w-full max-w-7xl px-6 md:px-12 lg:px-16 pt-20 pb-16">
+          <div className="max-w-3xl">
+            {/* Dynamic Headline: Half White & Half Alpine Green */}
+            <motion.h1
+              key={`title-${currentIndex}`}
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.1 }}
-              className="inline-flex items-center gap-2.5 rounded-full border border-[#CFA86E]/40 bg-[#0E3326]/80 px-3.5 py-1 backdrop-blur-md mb-4"
+              className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-[42px] xl:text-[45px] font-light leading-[1.2] tracking-tight drop-shadow-md"
             >
-              <Image
-                src="/images/tara-devis-seal.png"
-                alt="Tara Devi's Seal"
-                width={22}
-                height={22}
-                style={{ width: "22px", height: "22px", minWidth: "22px" }}
-                className="object-contain"
-              />
-              <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#E4C794]">
-                Tara Devi's Group • Himachal Pradesh
-              </span>
-            </motion.div>
-
-            {/* Dynamic Headline: Refined font size */}
-            <motion.h1
-              key={`title-${currentIndex}`}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="font-serif text-2xl sm:text-4xl lg:text-5xl font-light leading-[1.15] text-white tracking-tight"
-            >
-              {current.title}
+              {renderBicolorTitle(current.title)}
             </motion.h1>
-
-            {/* Dynamic Subtitle: Compact font size */}
-            <motion.p
-              key={`sub-${currentIndex}`}
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="mt-4 text-xs sm:text-sm text-slate-200/90 leading-relaxed font-light max-w-xl"
-            >
-              {current.subtitle}
-            </motion.p>
 
             {/* CTA Buttons */}
             <motion.div
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.4 }}
+              transition={{ duration: 0.7, delay: 0.2 }}
               className="mt-8 flex flex-wrap items-center gap-3.5"
             >
               <Link

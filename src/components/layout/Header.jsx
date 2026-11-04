@@ -50,9 +50,8 @@ export default function Header({ initialNavData = [], initialGlobalSettings = nu
   const navLinks = [
     { label: "About Us", href: "#about" },
     { label: "Residences", href: "#residences" },
-    { label: "Amenities", href: "#amenities" },
+    { label: "Walkthrough", href: "#walkthrough" },
     { label: "Gallery", href: "#gallery" },
-    { label: "Blogs", href: "#walkthrough" },
     { label: "Contact Us", href: "#enquire" },
   ];
 

@@ -14,8 +14,6 @@ import AlpineMetricsBar from "src/components/features/taradevis/AlpineMetricsBar
 import AboutHeritage from "src/components/features/taradevis/AboutHeritage";
 import VisionSection from "src/components/features/taradevis/VisionSection";
 import ResidenceShowcase from "src/components/features/taradevis/ResidenceShowcase";
-import LocationSection from "src/components/features/taradevis/LocationSection";
-import AmenitiesSection from "src/components/features/taradevis/AmenitiesSection";
 import LeadershipSection from "src/components/features/taradevis/LeadershipSection";
 import VideoShowcase from "src/components/features/taradevis/VideoShowcase";
 import GallerySection from "src/components/features/taradevis/GallerySection";
@@ -127,16 +125,10 @@ export default async function Home() {
       {/* 4. Cinematic Property Walkthrough (Tara Devi Enclave Film) */}
       <VideoShowcase />
 
-      {/* 5. Signature Mountain Developments (Tara Devi Enclave & Kufri Villas) */}
+      {/* 4. Signature Mountain Developments (Tara Devi Enclave & Kufri Villas) */}
       <ResidenceShowcase residences={serialize(residences)} />
 
-      {/* 6. Strategic Himalayan Location & Foothill Distances */}
-      <LocationSection />
-
-      {/* 7. Curated Amenities & Lifestyle */}
-      <AmenitiesSection amenities={serialize(whyChooseList)} />
-
-      {/* 8. Leadership & Team */}
+      {/* 5. Leadership & Team */}
       <LeadershipSection />
 
       {/* 9. Visual Gallery */}

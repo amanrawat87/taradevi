@@ -78,13 +78,13 @@ export default async function Footer() {
                 <span className="block text-[10px] text-[#CFA86E] uppercase tracking-wider">Planned Private Enclave</span>
               </li>
               <li className="pt-2">
-                <Link href="#amenities" className="hover:text-[#E4C794] transition-colors">
-                  Curated Mountain Amenities
+                <Link href="#walkthrough" className="hover:text-[#E4C794] transition-colors">
+                  Cinematic Walkthrough
                 </Link>
               </li>
               <li>
-                <Link href="#location" className="hover:text-[#E4C794] transition-colors">
-                  Strategic Himalayan Location
+                <Link href="#gallery" className="hover:text-[#E4C794] transition-colors">
+                  Property Gallery
                 </Link>
               </li>
             </ul>

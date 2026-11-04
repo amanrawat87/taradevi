@@ -14,7 +14,7 @@ export default function AlpineMetricsBar() {
       kicker: "ELEVATION",
       title: "6,500+ Feet",
       caption: "High Alpine Pine Belt",
-      href: "#location",
+      href: "#residences",
     },
     {
       id: "air",
@@ -26,7 +26,7 @@ export default function AlpineMetricsBar() {
       kicker: "AIR PURITY",
       title: "Sub-25 AQI",
       caption: "Pristine Himalayan Freshness",
-      href: "#location",
+      href: "#residences",
     },
     {
       id: "under-construction",

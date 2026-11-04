@@ -61,7 +61,7 @@ export default function VisionSection() {
           <div className="flex items-center gap-3 mb-3">
             <span className="h-px w-8 bg-[#CFA86E]" />
             <span className="text-[11px] font-semibold uppercase tracking-[0.25em] text-[#A27E47]">
-              Section 02 • Our Vision
+              Our Vision
             </span>
           </div>
 
