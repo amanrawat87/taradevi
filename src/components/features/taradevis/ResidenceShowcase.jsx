@@ -27,6 +27,38 @@ export default function ResidenceShowcase({ residences = [] }) {
     },
   ];
 
+  // Merge live database residences from Dashboard with authentic defaults
+  const activeResidences =
+    residences && residences.length > 0
+      ? residences.map((res, idx) => {
+          const fallback = defaultResidences[idx] || defaultResidences[0];
+
+          let badge = fallback.badge;
+          let grade = res.grade || fallback.grade;
+          if (res.grade && res.grade.includes("•")) {
+            const parts = res.grade.split("•");
+            badge = parts[0].trim();
+            grade = parts[1].trim();
+          }
+
+          const cleanName = res.name
+            ? res.name.replace(/\?+/g, "—").replace(/—\s*—/g, "—")
+            : fallback.name;
+
+          return {
+            _id: res._id || fallback._id,
+            name: cleanName,
+            grade: grade.replace(/\?+/g, "•"),
+            badge: res.badge || badge,
+            elevation: res.elevation || fallback.elevation,
+            climate: res.climate || fallback.climate,
+            possession: res.possession || fallback.possession,
+            // Prioritize the live image uploaded from the dashboard
+            image: res.image || fallback.image,
+          };
+        })
+      : defaultResidences;
+
   // Active development filter: "all" | 0 | 1
   const [selectedFilter, setSelectedFilter] = useState("all");
 
@@ -37,8 +69,8 @@ export default function ResidenceShowcase({ residences = [] }) {
 
   const filteredResidences =
     selectedFilter === "all"
-      ? defaultResidences
-      : defaultResidences.filter((_, idx) => idx === selectedFilter);
+      ? activeResidences
+      : activeResidences.filter((_, idx) => idx === selectedFilter);
 
   return (
     <section
@@ -71,11 +103,11 @@ export default function ResidenceShowcase({ residences = [] }) {
                   : "bg-white text-[#0E3326] border border-[#CFA86E]/30 hover:border-[#CFA86E]"
               }`}
             >
-              All Developments ({defaultResidences.length})
+              All Developments ({activeResidences.length})
             </button>
-            {defaultResidences.map((r, i) => (
+            {activeResidences.map((r, i) => (
               <button
-                key={i}
+                key={r._id || i}
                 onClick={() => setSelectedFilter(i)}
                 className={`rounded-full px-4 py-1.5 text-xs font-semibold tracking-wider transition-all cursor-pointer ${
                   selectedFilter === i
@@ -83,7 +115,7 @@ export default function ResidenceShowcase({ residences = [] }) {
                     : "bg-white text-[#0E3326] border border-[#CFA86E]/30 hover:border-[#CFA86E]"
                 }`}
               >
-                {i === 0 ? "Shimla Enclave" : "Kufri Villas"}
+                {r.name && r.name.toLowerCase().includes("kufri") ? "Kufri Villas" : "Shimla Enclave"}
               </button>
             ))}
           </div>

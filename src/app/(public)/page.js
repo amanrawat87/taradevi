@@ -20,8 +20,9 @@ import GallerySection from "src/components/features/taradevis/GallerySection";
 import CareersSection from "src/components/features/taradevis/CareersSection";
 import EnquirySection from "src/components/features/taradevis/EnquirySection";
 
-// Rebuild homepage every 5 minutes (ISR)
-export const revalidate = 300;
+// Ensure dashboard updates (images, titles, residences) reflect immediately on the homepage
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 // Deduplicate the HomeSeo DB call — used in both generateMetadata and Home()
 const getHomeSeo = cache(async () => {

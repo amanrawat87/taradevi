@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-const TOTAL_FRAMES = 142;
+const TOTAL_FRAMES = 150;
 
 export default function VideoShowcase() {
   const sectionRef = useRef(null);
@@ -126,11 +126,11 @@ export default function VideoShowcase() {
           trigger: section,
           start: "top top",
           end: "bottom bottom",
-          scrub: 0.8, // Smooth dampening to prevent fast or jerky frame jumps
+          scrub: 1.6, // Higher dampening for ultra-smooth, slow cinematic transitions
         },
       });
 
-      // PHASE 1: Card expands smoothly to fullscreen (0% to 15% of scroll)
+      // PHASE 1: Card expands smoothly to fullscreen (0% to 8% of scroll)
       if (header) {
         tl.to(
           header,
@@ -139,7 +139,7 @@ export default function VideoShowcase() {
             y: -25,
             scale: 0.96,
             ease: "power1.out",
-            duration: 0.15,
+            duration: 0.08,
           },
           0
         );
@@ -152,7 +152,7 @@ export default function VideoShowcase() {
             opacity: 0,
             y: 15,
             ease: "power1.out",
-            duration: 0.12,
+            duration: 0.06,
           },
           0
         );
@@ -169,18 +169,18 @@ export default function VideoShowcase() {
           borderColor: "transparent",
           boxShadow: "none",
           ease: "power2.inOut",
-          duration: 0.15,
+          duration: 0.08,
         },
         0
       );
 
-      // PHASE 2: Slower, cinematic frame-by-frame scrubbing (15% to 100% of scroll = 340vh distance)
+      // PHASE 2: Slow, deliberate cinematic frame-by-frame scrubbing across 800vh+
       tl.to(
         proxyRef.current,
         {
           frame: TOTAL_FRAMES - 1,
           ease: "none",
-          duration: 0.85,
+          duration: 0.92,
           onUpdate: () => {
             const frameIndex = Math.min(
               TOTAL_FRAMES - 1,
@@ -190,7 +190,7 @@ export default function VideoShowcase() {
             drawFrame(frameIndex);
           },
         },
-        0.15
+        0.08
       );
     }, section);
 
@@ -204,7 +204,7 @@ export default function VideoShowcase() {
       ref={sectionRef}
       id="walkthrough"
       className="relative w-full bg-[#081E16]"
-      style={{ height: "500vh" }}
+      style={{ height: "850vh" }}
     >
       {/* 
         Native CSS Sticky Viewport:
