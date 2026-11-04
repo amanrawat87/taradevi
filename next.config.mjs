@@ -8,6 +8,14 @@ const nextConfig = {
     'dotenv',
   ],
 
+  // ✅ Optimize serverless bundling - exclude heavy local media from function tracing
+  outputFileTracingExcludes: {
+    '*': [
+      './video/**',
+      './public/videos/**',
+    ],
+  },
+
   // CKEditor 5 support
   transpilePackages: [
     'ckeditor5',
